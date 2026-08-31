@@ -235,6 +235,10 @@ class PnkOpenRouterImageGenProvider(ImageGenProvider):
             "model": model,
             "messages": [{"role": "user", "content": content}],
             "modalities": modalities,
+            # Route only to zero-data-retention endpoints. This provider is
+            # OpenRouter-only, so the flag is unconditional: a model with no ZDR
+            # endpoint should fail loudly rather than silently fall back.
+            "provider": {"zdr": True},
         }
         headers = {
             "Authorization": f"Bearer {_api_key()}",
